@@ -19,12 +19,9 @@ public class CheckLoginInterceptor {
 	
 	@Around("within(com.bjzkar.application.controller.user.logined..*)")
 	public NoteResult getUserId(ProceedingJoinPoint pjp) throws Throwable {
-		System.out.println("====================aop===================");
 		NoteResult result = null;
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		System.out.println("====================request:"+request.toString()+"===================");
 		if (isLogin(request)) {
-			System.out.println("====================pjp"+pjp.toLongString()+"===================");
 			result = (NoteResult)pjp.proceed();
 		} else {
 			result.setStatus("4");
@@ -35,16 +32,14 @@ public class CheckLoginInterceptor {
 	
 	private boolean isLogin (HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-		System.out.println("====================cookies"+cookies+"===================");
+		System.out.println("====================cookies"+cookies.length+"===================");
 		Long userId = null;
 		for (Cookie cookie : cookies) {
 			if (UserController.SESSION_COOKIE_NAME.equals(cookie.getName())) {
 				userId = Long.parseLong(cookie.getValue());
-				System.out.println("====================userId"+userId+"===================");
 				request.setAttribute(UserController.SESSION_COOKIE_NAME, userId);
 			}
 		}
-		System.out.println("===================="+ userId +"===================");
 		return userId != null;
 	}
 }

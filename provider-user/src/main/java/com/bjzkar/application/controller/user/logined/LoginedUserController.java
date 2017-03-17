@@ -21,10 +21,10 @@ public class LoginedUserController {
 	
 	@PostMapping("/loadUserInfo.form")
 	public NoteResult loadUserInfo(HttpServletRequest request) {
-		System.out.println(request.getSession().getId());
+		//System.out.println(request.getSession().getId());
 		//Long userId = (Long)request.getSession().getAttribute("userId");
 		Long userId = getUserId(request);
-		System.out.println(userId);
+		//System.out.println(userId);
 		NoteResult result = null;
 		if (userId == null) {
 			result = new NoteResult();
@@ -61,6 +61,6 @@ public class LoginedUserController {
 	}
 	
 	private Long getUserId(HttpServletRequest request) {
-		return Long.parseLong((String) request.getAttribute(UserController.SESSION_COOKIE_NAME));
+		return (Long) request.getAttribute(UserController.SESSION_COOKIE_NAME);
 	}
 }

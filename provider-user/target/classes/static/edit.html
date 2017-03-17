@@ -8,7 +8,7 @@
     var user;
     $(function() {
     	$.ajax({
-            url : "http://localhost:8050/provider-user/loadUserInfo.form",
+            url : "http://localhost:8000/loadUserInfo.form",
             type : "post",
             dataType : "json",
             success : function(result) {
@@ -21,7 +21,7 @@
                     user = result.data;
                 } else {
                 	alert("未登录");
-                    window.location.href = "http://localhost:8050/provider-user/login.html";
+                    window.location.href = "http://localhost:8000/login.html";
                 }
             },
             error : function() {
@@ -61,7 +61,7 @@
             }
             //alert(dataMap);
         	$.ajax({
-                url : "http://localhost:8050/provider-user/modify.form",
+                url : "http://localhost:8000/modify.form",
                 type : "post",
                 dataType : "json",
                 data : dataMap,
@@ -97,7 +97,7 @@
                 };
                 //alert(dataMap);
             $.ajax({
-                url : "http://localhost:8050/provider-user/del.form",
+                url : "http://localhost:8000/del.form",
                 type : "post",
                 dataType : "json",
                 data : dataMap,
@@ -123,7 +123,7 @@
             <h3>编辑信息</h3>
         </div>
         <div>
-            <form action="http://localhost:8050/provider-user/login.form" method="post">
+            <form action="http://localhost:8000/login.form" method="post">
                 <p>用户名: <span id="username"></span><span id="name_msg"></span></p>
                 <p>电&nbsp;&nbsp;&nbsp;话: <input type="text" id="tel" name="user_telephone" /><span id="tel_msg"></span></p>
                 <p>邮&nbsp;&nbsp;&nbsp;箱: <input type="text" id="email" name="user_email" /><span id="email_msg"></span></p>

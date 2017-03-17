@@ -22,7 +22,7 @@
         }
         if (formCheck) {
         	$.ajax({
-                url : "http://localhost:8050/provider-user/login.form",
+                url : "http://localhost:8000/login.form",
                 type : "post",
                 dataType : "json",
                 data : {
@@ -35,8 +35,8 @@
                         //var userId = result.data.tokenId;// 获取令牌号
                         var userId = result.data.user.user_id;// 获取userId
                         addCookie("USER_ID", userId, 2);                        
-                        //window.location.href = "edit.html";
-                        $("a").attr("href","http://localhost:8050/provider-user/edit.html");
+                        window.location.href = "edit.html";
+                        //$("a").attr("href","http://localhost:8000/edit.html");
                     } else {// 用户名不对
                         $("#name_msg")
                                 .html("用户名或密码错误");
@@ -75,16 +75,15 @@
         }
         if (formCheck) {
         	$.ajax({
-                url : "http://localhost:8050/provider-user/regist.form",
+                url : "http://localhost:8000/regist.form",
                 type : "post",
-                dataType : "jsonp",
+                dataType : "json",
                 data : {
                     "user_name" : username,
                     "user_password" : password
                 },
                 success : function(result) {
                     if (result.status == "0") {
-                    	alert("222222222222");
                         $("#back").click();
                     } else if (result.status == "2") {
                         $("#r_name_msg").html("用户名不可用");
@@ -125,12 +124,12 @@
             <h3>登&nbsp;录</h3>
         </div>
         <div>
-            <form action="http://localhost:8050/provider-user/login.form" method="post">
+            <form action="http://localhost:8000/login.form" method="post">
                 <p>用户名: <input type="text" id="username" name="user_name" /><span id="name_msg"></span></p>
                 <p>密&nbsp;&nbsp;&nbsp;码: <input type="password" id="password" name="user_password" /><span id="pwd_msg"></span></p>
                 <input type="button" value="登陆" onclick="login()"/>
                 <input type="button" value="注册" onclick="to_regist()"/>
-                <a>111</a>
+                <!-- <a>111</a> -->
             </form>
         </div>
     </div>
@@ -139,7 +138,7 @@
             <h3>注&nbsp;册</h3>
         </div>
         <div>
-            <form action="http://localhost:8050/provider-user/regist.form" method="post">
+            <form action="http://localhost:8000/regist.form" method="post">
                 <p>用户名: <input type="text" id="r_username" name="user_name" /><span id="r_name_msg"></span></p>
                 <p>密&nbsp;&nbsp;&nbsp;码: <input type="password" id="r_password" name="user_password" /><span id="r_pwd_msg"></span></p>
                 <p>密&nbsp;&nbsp;&nbsp;码: <input type="password" id="r_password_confirm" name="user_password_confirm" /><span id="r_pwd_cfm_msg"></span></p>
