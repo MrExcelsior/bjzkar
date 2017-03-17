@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>edit</title>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+    var user;
+    $(function() {
+    	$.ajax({
+            url : "http://localhost:8050/provider-user/loadUserInfo.form",
+            type : "post",
+            dataType : "json",
+            success : function(result) {
+                if (result.status == "0") {// 成功
+                    // 登录成功后，将登陆令牌存入cookie
+                    //alert(result.data.user_name)
+                    $("#username").html(result.data.user_name);
+                    $("#tel").val(result.data.user_telephone);
+                    $("#email").val(result.data.user_email);
+                    user = result.data;
+                } else {
+                	alert("未登录");
+                    window.location.href = "http://localhost:8050/provider-user/login.html";
+                }
+            },
+            error : function() {
+                alert("操作处理失败，请重试");
+            }
+        });
+    });
+    function edit() {
+        document.getElementById("o_pwd_msg").innerText = "";
+        document.getElementById("n_pwd_msg").innerText = "";
+        var formCheck = true;
+        var o_pwd = document.getElementById("o_pwd").value;
+        var n_pwd = document.getElementById("n_pwd").value;
+        var username = document.getElementById("username").innerText;
+        var tel = document.getElementById("tel").value;
+        var email = document.getElementById("email").value;
+        if (o_pwd == "") {
+        	formCheck = false;
+            document.getElementById("o_pwd_msg").innerText = "原密码不能为空"
+        }
+        if (n_pwd != "") {
+        	if (o_pwd == n_pwd) {
+                formCheck = false;
+                document.getElementById("n_pwd_msg").innerText = "新密码不能与原密码相同"
+        	}
+        }
+        if (formCheck) {
+            var dataMap = {
+            	    "user_id" : user.user_id,
+            		"user_name" : username,
+                    "user_password" : o_pwd,
+                    "user_telephone" : tel,
+                    "user_email" : email,
+                };
+            if (n_pwd != "") {
+            	dataMap["new_password"] = n_pwd;
+            }
+            //alert(dataMap);
+        	$.ajax({
+                url : "http://localhost:8050/provider-user/modify.form",
+                type : "post",
+                dataType : "json",
+                data : dataMap,
+                success : function(result) {
+                    if (result.status == "0") {// 成功
+                        window.location.href = "edit.html";
+                    } else {// 用户名不对
+                        $("#o_pwd_msg")
+                                .html("密码错误");
+                    }
+                },
+                error : function() {
+                    alert("操作处理失败，请重试");
+                }
+            });
+        }
+    }
+        
+    function del() {
+        document.getElementById("o_pwd_msg").innerText = "";
+        var formCheck = true;
+        var o_pwd = document.getElementById("o_pwd").value;
+        var username = document.getElementById("username").innerText;
+        if (o_pwd == "") {
+            formCheck = false;
+            document.getElementById("o_pwd_msg").innerText = "原密码不能为空";
+        }
+        if (formCheck) {
+            var dataMap = {
+                    "user_id" : user.user_id,
+                    "user_name" : username,
+                    "user_password" : o_pwd,
+                };
+                //alert(dataMap);
+            $.ajax({
+                url : "http://localhost:8050/provider-user/del.form",
+                type : "post",
+                dataType : "json",
+                data : dataMap,
+                success : function(result) {
+                    if (result.status == "0") {// 成功
+                        window.location.href = "login.html";
+                    } else {// 用户名不对
+                        $("#o_pwd_msg")
+                                .html("密码错误");
+                    }
+                },
+                error : function() {
+                   alert("操作处理失败，请重试");
+                }
+            });
+        }
+    }
+</script>
+</head>
+<body>
+    <div class="edit_contact" tabindex='-1' id='contact' style="display:block">
+        <div class='header'>
+            <h3>编辑信息</h3>
+        </div>
+        <div>
+            <form action="http://localhost:8050/provider-user/login.form" method="post">
+                <p>用户名: <span id="username"></span><span id="name_msg"></span></p>
+                <p>电&nbsp;&nbsp;&nbsp;话: <input type="text" id="tel" name="user_telephone" /><span id="tel_msg"></span></p>
+                <p>邮&nbsp;&nbsp;&nbsp;箱: <input type="text" id="email" name="user_email" /><span id="email_msg"></span></p>
+                <p>原密码: <input type="password" id="o_pwd" name="o_pwd" /><span id="o_pwd_msg"></span></p>
+                <p>新密码: <input type="password" id="n_pwd" name="n_pwd" /><span id="n_pwd_msg"></span></p>
+                <input type="button" value="提交" onclick="edit()"/>
+                <input type="button" value="删除用户" onclick="del()"/>
+            </form>
+        </div>
+    </div>
+</body> 
+</html>
