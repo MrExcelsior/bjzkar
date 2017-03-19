@@ -34,7 +34,7 @@
                         // 登录成功后，将登陆令牌存入cookie
                         //var userId = result.data.tokenId;// 获取令牌号
                         var userId = result.data.user.user_id;// 获取userId
-                        addCookie("USER_ID", userId, 2);                        
+                        addCookie("USER_ID", userId, 0);                        
                         window.location.href = "edit.html";
                         //$("a").attr("href","http://localhost:8000/edit.html");
                     } else {// 用户名不对
